@@ -6,7 +6,7 @@ const DustToLevel = require('../json/dust-to-level')
 const findPokemon = require('./findPokemon')
 const logPokemon = require('./logPokemon')
 const isGoodPokemonForItsClass = require('./isGoodPokemon')
-const guessIVs = require('./guessIVs')
+const GuessIVs = require('./guessIVs')
 
 const init = {
   atk: [Infinity, -Infinity],
@@ -18,8 +18,8 @@ const init = {
   ivs: [Infinity, -Infinity],
 };
 
-function magic(pokemon) {
-  const results = (new IvCalculator(pokemon)).results;
+function magic(pokemon, trainerLevel) {
+  const results = (new IvCalculator(pokemon, trainerLevel)).results;
 
   if (!results.isValid()) {
     throw new Error(results.errors.join('. '));
@@ -161,8 +161,10 @@ class IvResults {
 }
 
 class IvCalculator {
-  constructor(pokemon) {
+  constructor(pokemon, trainerLevel) {
     this.pokemon = pokemon || {};
+    this.trainerLevel = trainerLevel;
+
     this.results = new IvResults(
       pokemon, this.calculateIvResults()
     );
@@ -179,14 +181,14 @@ class IvCalculator {
       }
 
       const ECpM = LevelToCPM[String(this.pokemon.level)]
-      return guessIVs(this.pokemon, mon, ECpM)
+      return new GuessIVs(this.pokemon, mon, ECpM, this.trainerLevel).possibleValues()
     }
 
     // If we're just going on stardust then we'll have to iterate through
     // each level and concatenate all possible values
     return DustToLevel[this.pokemon.stardust].reduce((arr, level) => {
       const ECpM = LevelToCPM[String(level)]
-      return arr.concat(guessIVs(this.pokemon, mon, ECpM))
+      return arr.concat((new GuessIVs(this.pokemon, mon, ECpM, this.trainerLevel)).possibleValues())
     }, []);
   }
 }

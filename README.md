@@ -3,7 +3,7 @@
   npm install
 ```
 
-## Usage
+## Terminal Usage
 
 ### Parse single result
 ```
@@ -20,3 +20,6 @@ raticate,815,74,2500
 ```
   node index.js /path/to/input.csv > /path/to/output.csv
 ```
+
+## Web Usage
+- Open `react.html` in web browser and check it out!
