@@ -12,14 +12,14 @@ const powerupTools = require('./powerup')
 const TRAINER_LEVEL = 26
 
 class GuessIVs {
-  constructor(pokemon, mon, ECpM, trainerLevel = 26) {
+  constructor(pokemon, mon, ECpM, trainerLevel = 30) {
     this.pokemon = pokemon;
     this.mon = mon;
     this.ECpM = ECpM;
     this.tranerLevel = trainerLevel;
 
     const maxLevel = pokemon.level || Math.max.apply(null, DustToLevel[pokemon.stardust])
-    const powerup = powerupTools.howMuchPowerUp(maxLevel, TRAINER_LEVEL)
+    const powerup = powerupTools.howMuchPowerUp(maxLevel, trainerLevel)
 
     this.baseMetadata = {
       Stardust: powerup.stardust,

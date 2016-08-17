@@ -18,7 +18,7 @@ raticate,815,74,2500
 ```
 - Run this command
 ```
-  node index.js /path/to/input.csv > /path/to/output.csv
+  node parseFileIvs.js 22 /path/to/input.csv > /path/to/output.csv
 ```
 
 ## Web Usage
